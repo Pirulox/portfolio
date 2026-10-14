@@ -1,0 +1,229 @@
+---
+const experiences = [
+  {
+    period: "Mar 2026 — Jun 2026",
+    role: "Prácticas FCT - Programador",
+    company: "Whitebrand (500 horas)",
+    description:
+      "Desarrollo frontend y backend de aplicaciones web con HTML, CSS, JavaScript y PHP, incluyendo la personalización de temas y plugins en WordPress. Creación y mantenimiento de módulos personalizados para PrestaShop en PHP. Mantenimiento y soporte de código en producción.",
+  },
+  {
+    period: "2024 — 2026",
+    role: "CFGS — Desarrollo de Aplicaciones Multiplataforma",
+    company: "La Salle Santo Ángel, Zaragoza",
+    description:
+      "Formación especializada en desarrollo de aplicaciones multiplataforma, bases de datos (SQL), programación orientada a objetos (Java), interfaces y desarrollo web (PHP, HTML, CSS, JavaScript).",
+  },
+  {
+    period: "Mar 2024 — Jun 2024",
+    role: "Prácticas FCT - Soporte Técnico",
+    company: "Acer (410 horas)",
+    description:
+      "Diagnóstico y resolución de incidencias tanto de hardware como de software. Soporte técnico directo a usuarios y mantenimiento correctivo y preventivo de equipos informáticos.",
+  },
+  {
+    period: "2022 — 2024",
+    role: "CFGM — Sistemas Microinformáticos y Redes",
+    company: "Salesianos, Zaragoza",
+    description:
+      "Montaje y mantenimiento de equipos, instalación y configuración de sistemas operativos, redes locales, servicios en red y seguridad informática.",
+  },
+];
+---
+
+<section class="experience" id="experience">
+  <div class="container">
+    <div class="section-divider experience-divider"></div>
+
+    <div class="experience-header">
+      <span class="section-number experience-number">04 — Experiencia</span>
+      <h2 class="section-title experience-title">Experiencia</h2>
+    </div>
+
+    <div class="experience-timeline">
+      <div class="timeline-line" id="timeline-line"></div>
+
+      {
+        experiences.map((exp, i) => (
+          <div class="timeline-entry timeline-entry-item">
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-content">
+              <div class="timeline-meta">
+                <span class="timeline-period">{exp.period}</span>
+                <span class="timeline-company">{exp.company}</span>
+              </div>
+              <h3 class="timeline-role">{exp.role}</h3>
+              <p class="timeline-desc">{exp.description}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Divider
+  gsap.to(".experience-divider", {
+    scaleX: 1,
+    duration: 1.5,
+    ease: "power3.inOut",
+    scrollTrigger: {
+      trigger: ".experience",
+      start: "top 80%",
+    },
+  });
+
+  // Header
+  gsap.from(".experience-number", {
+    y: 30,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".experience",
+      start: "top 70%",
+    },
+  });
+
+  gsap.from(".experience-title", {
+    y: 60,
+    opacity: 0,
+    duration: 1,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".experience",
+      start: "top 65%",
+    },
+  });
+
+  // Timeline line draw
+  gsap.from("#timeline-line", {
+    scaleY: 0,
+    duration: 1.5,
+    ease: "power3.inOut",
+    scrollTrigger: {
+      trigger: ".experience-timeline",
+      start: "top 75%",
+    },
+  });
+
+  // Entries stagger
+  gsap.from(".timeline-entry-item", {
+    y: 50,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.25,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".experience-timeline",
+      start: "top 70%",
+    },
+  });
+</script>
+
+<style>
+  .experience {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+  }
+
+  .experience-header {
+    padding-top: var(--space-lg);
+  }
+
+  .experience-timeline {
+    position: relative;
+    padding-left: 3rem;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: var(--border-light);
+    transform-origin: top;
+  }
+
+  .timeline-entry {
+    position: relative;
+    padding-bottom: 3rem;
+  }
+
+  .timeline-entry:last-child {
+    padding-bottom: 0;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -3rem;
+    top: 0.5rem;
+    width: 8px;
+    height: 8px;
+    background: var(--text);
+    border-radius: 50%;
+    transform: translateX(-50%);
+  }
+
+  .timeline-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .timeline-meta {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .timeline-period {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .timeline-company {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  .timeline-role {
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .timeline-desc {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  @media (min-width: 768px) {
+    .experience-timeline {
+      padding-left: 4rem;
+    }
+
+    .timeline-dot {
+      left: -4rem;
+    }
+
+    .timeline-entry {
+      padding-bottom: 4rem;
+    }
+  }
+</style>

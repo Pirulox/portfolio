@@ -1,0 +1,461 @@
+---
+
+---
+
+<section class="hero" id="hero">
+  <div class="hero-pin-wrapper" id="hero-pin-wrapper">
+    <!-- CAPA 1: Fondo animado Miami Vice -->
+    <div class="miami-bg" id="miami-bg">
+      <div class="miami-gradient"></div>
+      <div class="miami-flare miami-flare-1"></div>
+      <div class="miami-flare miami-flare-2"></div>
+      <div class="miami-flare miami-flare-3"></div>
+    </div>
+
+    <!-- CAPA 2: SVG Máscara calada (Stencil) -->
+    <div class="svg-mask-layer" id="svg-mask-layer">
+      <svg
+        id="gta-svg-mask"
+        viewBox="0 0 1600 900"
+        preserveAspectRatio="xMidYMid slice"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <mask id="cutout">
+            <rect width="1600" height="900" fill="white"></rect>
+            <text
+              x="800"
+              y="380"
+              dominant-baseline="middle"
+              text-anchor="middle"
+              font-family="'Barlow Condensed', 'Arial Black', Impact, sans-serif"
+              font-weight="900"
+              font-size="260"
+              letter-spacing="8"
+              fill="black">IZAN RUIZ</text
+            >
+          </mask>
+        </defs>
+        <rect width="1600" height="900" fill="var(--bg)" mask="url(#cutout)"
+        ></rect>
+      </svg>
+    </div>
+
+    <!-- CAPA 3: Indicador de scroll inicial -->
+    <div class="hero-scroll-prompt" id="hero-scroll-prompt">
+      <span class="prompt-text">SCROLL TO REVEAL ↓</span>
+    </div>
+
+    <!-- CAPA 4: Información de texto -->
+    <div class="hero-overlay-info" id="hero-overlay-info">
+      <div class="hero-overlay-content">
+        <div class="hero-info" id="hero-info-block">
+          <p class="hero-title" id="hero-title">
+            Desarrollador Web | Aplicaciones Móviles
+          </p>
+          <p class="hero-subtitle" id="hero-subtitle">
+            Desarrollador Web con experiencia en la creación de aplicaciones
+            móviles y soluciones digitales innovadoras.
+          </p>
+        </div>
+
+        <div class="hero-footer" id="hero-footer-block">
+          <div class="hero-available" id="hero-available">
+            <span class="available-dot"></span>
+            <span>Disponible para proyectos</span>
+          </div>
+
+          <a
+            href="#about"
+            class="hero-scroll"
+            id="hero-scroll"
+            aria-label="Scroll down"
+          >
+            <span class="scroll-text">Scroll</span>
+            <span class="scroll-arrow">↓</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const pinWrapper = document.getElementById("hero-pin-wrapper");
+  const svgMaskLayer = document.getElementById("svg-mask-layer");
+  const scrollPrompt = document.getElementById("hero-scroll-prompt");
+
+  if (pinWrapper && svgMaskLayer) {
+    // Estado inicial: SVG escalado masivamente, usuario "dentro" de las letras
+    gsap.set(svgMaskLayer, {
+      scale: 40,
+      opacity: 0.7,
+      transformOrigin: "center center",
+      force3D: true,
+    });
+
+    // Textos informativos ocultos
+    gsap.set(["#hero-info-block", "#hero-footer-block"], {
+      opacity: 0,
+      y: 30,
+    });
+
+    // Scroll prompt visible
+    gsap.set(scrollPrompt, {
+      opacity: 1,
+    });
+
+    // Pausar animaciones de los flares durante el scroll para no competir por GPU
+    const flares = document.querySelectorAll(".miami-flare");
+    let flaresResumed = false;
+    flares.forEach((f) => ((f as HTMLElement).style.animationPlayState = "paused"));
+
+    // Timeline principal con pin + scrub
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#hero",
+        start: "top top",
+        end: "+=150%",
+        pin: pinWrapper,
+        scrub: 0.3,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          // Reanudar flares solo cuando el zoom ya terminó
+          if (!flaresResumed && self.progress > 0.95) {
+            flaresResumed = true;
+            flares.forEach((f) => ((f as HTMLElement).style.animationPlayState = "running"));
+          }
+        },
+      },
+    });
+
+    // Fase 1: Fade-out del indicador de scroll (primeros 10% del recorrido)
+    tl.to(scrollPrompt, {
+      opacity: 0,
+      y: -20,
+      duration: 0.1,
+      ease: "power2.out",
+    })
+      // Fase 2: Zoom-out del SVG stencil
+      .to(
+        svgMaskLayer,
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.75,
+          ease: "power2.inOut",
+          force3D: true,
+        },
+        "0.02",
+      )
+      // Fase 3: Revelado de textos informativos
+      .to(
+        "#hero-info-block",
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.15,
+          ease: "power3.out",
+        },
+        "-=0.1",
+      )
+      .to(
+        "#hero-footer-block",
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.15,
+          ease: "power3.out",
+        },
+        "-=0.05",
+      );
+  }
+
+  // Animación de la flecha del prompt
+  gsap.to(".prompt-text", {
+    y: 6,
+    duration: 1.2,
+    repeat: -1,
+    yoyo: true,
+    ease: "power1.inOut",
+  });
+
+  // Flecha de scroll del footer
+  gsap.to(".scroll-arrow", {
+    y: 6,
+    duration: 1,
+    repeat: -1,
+    yoyo: true,
+    ease: "power1.inOut",
+  });
+</script>
+
+<style>
+  /* =============================================
+     HERO — GTA VI Stencil Mask + Miami Vice BG
+     ============================================= */
+  .hero {
+    padding: 0;
+    min-height: 100vh;
+    background-color: var(--bg);
+  }
+
+  .hero-pin-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* --- CAPA 1: Fondo animado Miami Vice --- */
+  .miami-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .miami-gradient {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(ellipse 120% 100% at 15% 25%, rgba(255, 0, 127, 0.85) 0%, transparent 55%),
+      radial-gradient(ellipse 100% 120% at 85% 75%, rgba(0, 240, 255, 0.75) 0%, transparent 50%),
+      radial-gradient(ellipse 140% 140% at 50% 50%, rgba(124, 58, 237, 0.95) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 80% at 25% 85%, rgba(0, 240, 255, 0.4) 0%, transparent 45%),
+      radial-gradient(ellipse 80% 80% at 80% 15%, rgba(255, 0, 127, 0.5) 0%, transparent 45%);
+  }
+
+  /* Destellos de luz ambiental — sin filter:blur, usan gradiente suave nativo */
+  .miami-flare {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: pulseMiami 6s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+    contain: layout style;
+  }
+
+  .miami-flare-1 {
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(circle, rgba(255, 0, 127, 0.6), transparent 40%);
+    top: -5%;
+    left: 0%;
+    animation-delay: 0s;
+  }
+
+  .miami-flare-2 {
+    width: 750px;
+    height: 750px;
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.5), transparent 40%);
+    bottom: 0%;
+    right: -5%;
+    animation-delay: -2s;
+  }
+
+  .miami-flare-3 {
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.5), transparent 40%);
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    animation-delay: -4s;
+    opacity: 0.35;
+  }
+
+  @keyframes pulseMiami {
+    0% {
+      transform: scale(1);
+      opacity: 0.35;
+    }
+    100% {
+      transform: scale(1.4);
+      opacity: 0.6;
+    }
+  }
+
+  /* --- CAPA 2: SVG Máscara calada --- */
+  .svg-mask-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .svg-mask-layer svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* --- CAPA 3: Indicador de scroll --- */
+  .hero-scroll-prompt {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    pointer-events: none;
+  }
+
+  .prompt-text {
+    font-size: clamp(0.75rem, 1.2vw, 0.9375rem);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+  }
+
+  .prompt-arrow {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.5);
+    display: inline-block;
+  }
+
+  /* --- CAPA 4: Información superpuesta --- */
+  .hero-overlay-info {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    align-items: flex-end;
+    pointer-events: none;
+    padding: 0 2rem 1.75rem;
+  }
+
+  .hero-overlay-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    pointer-events: auto;
+  }
+
+  #hero-info-block {
+    max-width: 500px;
+    margin-top: 6rem !important; /* Empuja el texto hacia abajo para dar aire al diseño */
+    position: relative;
+    z-index: 10;
+  }
+
+  .hero-title {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  .hero-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .hero-available {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .available-dot {
+    width: 8px;
+    height: 8px;
+    background: #4ade80;
+    border-radius: 50%;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+    }
+    50% {
+      opacity: 0.8;
+      box-shadow: 0 0 0 6px rgba(74, 222, 128, 0);
+    }
+  }
+
+  .hero-scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .scroll-text {
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .scroll-arrow {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 768px) {
+    .hero-overlay-info {
+      padding: 0 1.5rem 1.25rem;
+    }
+
+    .hero-footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .hero-scroll {
+      align-self: center;
+    }
+
+    .miami-flare-1 {
+      width: 500px;
+      height: 500px;
+    }
+
+    .miami-flare-2 {
+      width: 400px;
+      height: 400px;
+    }
+
+    .miami-flare-3 {
+      width: 350px;
+      height: 350px;
+    }
+  }
+</style>

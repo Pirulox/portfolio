@@ -1,0 +1,153 @@
+---
+const skillCategories = [
+  {
+    title: "Lenguajes",
+    skills: ["HTML5", "CSS3", "JavaScript", "PHP", "Java", "SQL"],
+  },
+  {
+    title: "Frameworks / CMS / Libs",
+    skills: ["Node.js", "Wordpress", "Prestashop", "Bootstrap", "GSAP"],
+  },
+  {
+    title: "Herramientas",
+    skills: ["Git", "Linux", "VS Code", "Figma", "Docker", "Vercel"],
+  },
+];
+---
+
+<section class="skills" id="skills">
+  <div class="container">
+    <div class="section-divider skills-divider"></div>
+
+    <div class="skills-header">
+      <span class="section-number skills-number">03 — Skills</span>
+      <h2 class="section-title skills-title">Tecnologías</h2>
+    </div>
+
+    <div class="skills-grid">
+      {
+        skillCategories.map((category) => (
+          <div class="skill-category skill-category-item">
+            <h3 class="skill-category-title">{category.title}</h3>
+            <ul class="skill-list">
+              {category.skills.map((skill) => (
+                <li class="skill-item">{skill}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Divider
+  gsap.to(".skills-divider", {
+    scaleX: 1,
+    duration: 1.5,
+    ease: "power3.inOut",
+    scrollTrigger: {
+      trigger: ".skills",
+      start: "top 80%",
+    },
+  });
+
+  // Header
+  gsap.from(".skills-number", {
+    y: 30,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".skills",
+      start: "top 70%",
+    },
+  });
+
+  gsap.from(".skills-title", {
+    y: 60,
+    opacity: 0,
+    duration: 1,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".skills",
+      start: "top 65%",
+    },
+  });
+
+  // Categories stagger
+  gsap.from(".skill-category-item", {
+    y: 50,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.2,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".skills-grid",
+      start: "top 80%",
+    },
+  });
+</script>
+
+<style>
+  .skills {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+  }
+
+  .skills-header {
+    padding-top: var(--space-lg);
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .skills-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4rem;
+    }
+  }
+
+  .skill-category-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skill-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .skill-item {
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    font-weight: 300;
+    color: var(--text-secondary);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid transparent;
+    transition: color var(--transition-fast),
+      border-color var(--transition-fast),
+      padding-left var(--transition-fast);
+  }
+
+  .skill-item:hover {
+    color: var(--text);
+    border-bottom-color: var(--border);
+    padding-left: 0.5rem;
+  }
+</style>

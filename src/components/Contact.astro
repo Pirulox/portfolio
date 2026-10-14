@@ -1,0 +1,255 @@
+---
+---
+
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="section-divider contact-divider"></div>
+
+    <div class="contact-content">
+      <span class="section-number contact-number">05 — Contacto</span>
+
+      <h2 class="contact-heading contact-heading-el">
+        <span class="contact-line">Hablemos de</span>
+        <span class="contact-line contact-line-accent">tu próximo proyecto</span>
+      </h2>
+
+      <p class="contact-text contact-text-el">
+        ¿Tienes una idea en mente? Estoy abierto a colaboraciones,
+        oportunidades y proyectos freelance. No dudes en escribirme.
+      </p>
+
+      <a
+        href="mailto:ruizmorerizan@gmail.com"
+        class="contact-email contact-email-el link-underline"
+        data-cursor-hover
+      >
+        ruizmorerizan@gmail.com
+      </a>
+
+      <div class="contact-links contact-links-el">
+        <a
+          href="https://github.com/Pirulox"
+          class="contact-link link-underline"
+          data-cursor-hover
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://linkedin.com/"
+          class="contact-link link-underline"
+          data-cursor-hover
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <span class="footer-text">© 2025 Izan. Todos los derechos reservados.</span>
+      <span class="footer-text">
+        Hecho con
+        <a href="https://astro.build" class="link-underline" data-cursor-hover target="_blank" rel="noopener noreferrer">Astro</a>
+      </span>
+    </footer>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Divider
+  gsap.to(".contact-divider", {
+    scaleX: 1,
+    duration: 1.5,
+    ease: "power3.inOut",
+    scrollTrigger: {
+      trigger: ".contact",
+      start: "top 80%",
+    },
+  });
+
+  // Number
+  gsap.from(".contact-number", {
+    y: 30,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".contact",
+      start: "top 70%",
+    },
+  });
+
+  // Heading lines
+  gsap.from(".contact-heading-el .contact-line", {
+    y: 80,
+    opacity: 0,
+    duration: 1,
+    stagger: 0.15,
+    ease: "power4.out",
+    scrollTrigger: {
+      trigger: ".contact-heading-el",
+      start: "top 80%",
+    },
+  });
+
+  // Text
+  gsap.from(".contact-text-el", {
+    y: 30,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".contact-text-el",
+      start: "top 85%",
+    },
+  });
+
+  // Email
+  gsap.from(".contact-email-el", {
+    y: 30,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".contact-email-el",
+      start: "top 90%",
+    },
+  });
+
+  // Social links
+  gsap.from(".contact-links-el .contact-link", {
+    y: 20,
+    opacity: 0,
+    duration: 0.6,
+    stagger: 0.1,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".contact-links-el",
+      start: "top 90%",
+    },
+  });
+</script>
+
+<style>
+  .contact {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-lg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .contact > .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 80vh;
+  }
+
+  .contact-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    padding-top: var(--space-lg);
+  }
+
+  .contact-heading {
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    overflow: hidden;
+  }
+
+  .contact-line {
+    display: block;
+  }
+
+  .contact-line-accent {
+    color: var(--text-secondary);
+    font-weight: 300;
+  }
+
+  .contact-text {
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 500px;
+  }
+
+  .contact-email {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    transition: color var(--transition-fast);
+  }
+
+  .contact-email:hover {
+    color: var(--text-secondary);
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 2rem;
+    padding-top: 1rem;
+  }
+
+  .contact-link {
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 400;
+    transition: color var(--transition-fast);
+  }
+
+  .contact-link:hover {
+    color: var(--text);
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-text {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-text a {
+    color: var(--text-secondary);
+    transition: color var(--transition-fast);
+  }
+
+  .footer-text a:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 768px) {
+    .contact {
+      min-height: auto;
+    }
+
+    .contact-links {
+      flex-wrap: wrap;
+    }
+  }
+</style>

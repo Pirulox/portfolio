@@ -1,0 +1,182 @@
+---
+---
+
+<section class="about" id="about">
+  <div class="container">
+    <div class="section-divider about-divider"></div>
+
+    <div class="about-grid">
+      <div class="about-left">
+        <span class="section-number about-number">01 — Sobre mí</span>
+        <h2 class="section-title about-title">Sobre<br />mí</h2>
+      </div>
+
+      <div class="about-right">
+        <p class="about-text about-text-1">
+          Soy un desarrollador y programador junior con formación en Desarrollo de Aplicaciones Multiplataforma (DAM). Cuento con experiencia práctica en el desarrollo tanto frontend como backend de aplicaciones web, así como en soporte técnico y administración de sistemas.
+        </p>
+        <p class="about-text about-text-2">
+          Me enfoco en crear soluciones digitales integrales y funcionales, adaptándome a las necesidades del proyecto con tecnologías web modernas y bases de datos. Disfruto del aprendizaje continuo y de afrontar nuevos retos tecnológicos.
+        </p>
+
+        <div class="about-details">
+          <div class="about-detail about-detail-item">
+            <span class="detail-label">Ubicación</span>
+            <span class="detail-value">Zaragoza, España</span>
+          </div>
+          <div class="about-detail about-detail-item">
+            <span class="detail-label">Enfoque</span>
+            <span class="detail-value">Web & Multiplataforma</span>
+          </div>
+          <div class="about-detail about-detail-item">
+            <span class="detail-label">Idiomas</span>
+            <span class="detail-value">Español (Nativo), Inglés (Básico)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Divider animation
+  gsap.to(".about-divider", {
+    scaleX: 1,
+    duration: 1.5,
+    ease: "power3.inOut",
+    scrollTrigger: {
+      trigger: ".about",
+      start: "top 80%",
+    },
+  });
+
+  // Left side
+  gsap.from(".about-number", {
+    y: 30,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".about",
+      start: "top 70%",
+    },
+  });
+
+  gsap.from(".about-title", {
+    y: 60,
+    opacity: 0,
+    duration: 1,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".about",
+      start: "top 65%",
+    },
+  });
+
+  // Right side texts
+  gsap.from(".about-text-1", {
+    y: 40,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".about-right",
+      start: "top 75%",
+    },
+  });
+
+  gsap.from(".about-text-2", {
+    y: 40,
+    opacity: 0,
+    duration: 0.8,
+    delay: 0.2,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".about-right",
+      start: "top 75%",
+    },
+  });
+
+  // Details stagger
+  gsap.from(".about-detail-item", {
+    y: 30,
+    opacity: 0,
+    duration: 0.6,
+    stagger: 0.15,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".about-details",
+      start: "top 85%",
+    },
+  });
+</script>
+
+<style>
+  .about {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-xl);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding-top: var(--space-lg);
+  }
+
+  @media (min-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr 1.5fr;
+      gap: 4rem;
+    }
+  }
+
+  .about-left {
+    position: relative;
+  }
+
+  .about-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .about-text {
+    font-size: clamp(1rem, 1.5vw, 1.1875rem);
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  .about-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .about-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .detail-label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .detail-value {
+    font-size: 0.9375rem;
+    color: var(--text);
+    font-weight: 400;
+  }
+</style>

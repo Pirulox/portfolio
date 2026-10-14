@@ -1,0 +1,210 @@
+/* ========================================
+   GLOBAL STYLES — Portfolio GTA VI / Vice City
+   ======================================== */
+
+/* --- CSS Variables --- */
+:root {
+  --bg: #0c0721;                  /* Violeta noche profundo estilo Vice City en lugar de negro */
+  --bg-secondary: #160d33;        /* Fondo eléctrico para tarjetas */
+  --bg-navbar: rgba(12, 7, 33, 0.8); /* Fondo translúcido para el menú superior */
+  --text: #ffffff;
+  --text-secondary: #ff007f;      /* Rosa Neón */
+  --text-muted: #00f0ff;          /* Azul Cian */
+  --accent: #ff007f;
+  --border: #291854;
+  --border-light: #ff007f;
+
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+  --space-2xl: 12rem;
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Neon glow shadows */
+  --glow-pink: 0 0 20px rgba(255, 0, 127, 0.3), 0 0 40px rgba(255, 0, 127, 0.1);
+  --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.3), 0 0 40px rgba(0, 240, 255, 0.1);
+}
+
+/* --- Reset --- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg) !important;
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--text-muted);
+}
+
+button {
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+  transition: color var(--transition-fast);
+}
+
+button:hover {
+  color: var(--accent);
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 3px;
+  box-shadow: 0 0 6px rgba(255, 0, 127, 0.4);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+  box-shadow: 0 0 6px rgba(0, 240, 255, 0.4);
+}
+
+/* --- Selection --- */
+::selection {
+  background: var(--accent);
+  color: #000000;
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.section-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 300;
+  margin-bottom: var(--space-lg);
+}
+
+.section-number {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 400;
+  margin-bottom: var(--space-sm);
+  display: block;
+}
+
+/* --- Section Base --- */
+section {
+  padding: var(--space-xl) var(--space-md);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: var(--space-xl) var(--space-lg);
+  }
+}
+
+@media (min-width: 1200px) {
+  section {
+    padding: var(--space-2xl) var(--space-xl);
+  }
+}
+
+/* --- Container --- */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* --- Divider --- */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--text-muted), transparent);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+/* --- Link hover effect --- */
+.link-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--text-muted));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-smooth);
+}
+
+.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* --- Reveal animation helper --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.reveal-line {
+  overflow: hidden;
+}
+
+.reveal-line span {
+  display: inline-block;
+  transform: translateY(100%);
+}
